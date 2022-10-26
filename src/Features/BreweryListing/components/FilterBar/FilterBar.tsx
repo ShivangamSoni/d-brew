@@ -1,9 +1,16 @@
 import type { FC, FormEventHandler, MouseEventHandler } from "react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import { useDispatch } from "../../../../Context/Context";
 import { setCity, setType } from "../../../../Context/ListingState/actions";
 import { BREWERY_TYPES, CITIES } from "../../Constants";
+import {
+    Button,
+    FieldGroup,
+    Form,
+    FormField,
+    Select,
+} from "./Styled.Components";
 
 const FilterBar: FC = () => {
     const dispatch = useDispatch();
@@ -30,40 +37,42 @@ const FilterBar: FC = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label>City:</label>
-                <select
-                    value={city}
-                    onChange={(e) => setCityState(e.target.value)}
-                >
-                    {CITIES.map(({ value, label }) => (
-                        <option key={value} value={value}>
-                            {label}
-                        </option>
-                    ))}
-                </select>
-            </div>
+        <Form onSubmit={handleSubmit}>
+            <FieldGroup>
+                <FormField>
+                    <Select
+                        value={city}
+                        onChange={(e) => setCityState(e.target.value)}
+                    >
+                        {CITIES.map(({ value, label }) => (
+                            <option key={value} value={value}>
+                                {label}
+                            </option>
+                        ))}
+                    </Select>
+                </FormField>
 
-            <div>
-                <label>Type:</label>
-                <select
-                    value={type}
-                    onChange={(e) => setTypeState(e.target.value)}
-                >
-                    {BREWERY_TYPES.map(({ value, label }) => (
-                        <option key={value} value={value}>
-                            {label}
-                        </option>
-                    ))}
-                </select>
-            </div>
+                <FormField>
+                    <Select
+                        value={type}
+                        onChange={(e) => setTypeState(e.target.value)}
+                    >
+                        {BREWERY_TYPES.map(({ value, label }) => (
+                            <option key={value} value={value}>
+                                {label}
+                            </option>
+                        ))}
+                    </Select>
+                </FormField>
+            </FieldGroup>
 
-            <button type="submit">Apply</button>
-            <button type="reset" onClick={handleReset}>
-                Reset
-            </button>
-        </form>
+            <FieldGroup>
+                <Button type="submit">Apply</Button>
+                <Button type="reset" onClick={handleReset}>
+                    Reset
+                </Button>
+            </FieldGroup>
+        </Form>
     );
 };
 

@@ -5,6 +5,7 @@ export const StyledHead = styled.header`
     align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
+    color: ${({ theme }) => theme.white[500]};
 `;
 
 export const Title = styled.h1``;
@@ -32,7 +33,33 @@ export const NavList = styled.ul`
 export const ListItem = styled.li``;
 
 export const NavLink = styled.a`
-    &:hover {
-        color: cornflowerblue;
+    padding: 0.3em 0.8em;
+
+    position: relative;
+    isolation: isolate;
+
+    transition: color 350ms linear;
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background-color: ${({ theme }) => theme.white[500]};
+        transform: scaleX(0);
+        transition: transform 300ms linear;
+        transform-origin: right;
+    }
+
+    &:hover,
+    &:active,
+    &:focus,
+    &.active {
+        color: ${({ theme }) => theme.text};
+
+        &::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
     }
 `;

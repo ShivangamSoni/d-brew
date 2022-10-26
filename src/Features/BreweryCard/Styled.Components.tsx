@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 export const Card = styled.div`
-    background-color: hsl(20, 100%, 70%);
+    background-color: ${({ theme }) => theme.white[100]};
+    color: ${({ theme }) => theme.text};
     padding: 1rem;
     border-radius: 5px;
 

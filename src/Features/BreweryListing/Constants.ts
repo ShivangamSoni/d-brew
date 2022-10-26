@@ -28,7 +28,7 @@ export const CITIES = [
 export const BREWERY_TYPES = [
     {
         value: "",
-        label: "Select City",
+        label: "Select Type",
     },
     {
         value: "micro",

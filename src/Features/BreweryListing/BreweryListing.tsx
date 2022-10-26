@@ -4,28 +4,28 @@ import { useState } from "react";
 import { useCtxState } from "../../Context/Context";
 
 import Modal from "../../Site/Common/components/Modal/Modal";
-import { IBrewery } from "../../Site/Common/Types";
+import { PER_PAGE } from "../../Site/Common/Constants";
 import BreweryCard from "../BreweryCard/BreweryCard";
 import FilterBar from "./components/FilterBar/FilterBar";
 import Pagination from "./components/Pagination/Pagination";
 import { List, ListItem, Title, Wrapper, Info } from "./Styled.Components";
 
-const BreweryListing: FC<{
-    breweries: IBrewery[];
-    pageNum: number;
-    onNext: () => void;
-    onPrev: () => void;
-}> = ({ breweries, ...props }) => {
+const BreweryListing: FC = () => {
     const {
         query: { query },
     } = useRouter();
 
+    const [pageNum, setPageNum] = useState(1);
+
     const state = useCtxState();
     const { city, type } = state?.listing?.filter || {};
+    const breweries = state?.listing?.breweries || [];
 
     const [active, setActive] = useState("");
 
-    let filteredBreweries = [...breweries];
+    let filteredBreweries = breweries.filter((a) =>
+        a.name.toLowerCase().includes((query as string)?.toLowerCase()),
+    );
 
     if (city !== "") {
         filteredBreweries = filteredBreweries.filter(
@@ -39,12 +39,33 @@ const BreweryListing: FC<{
         );
     }
 
+    const handleNext = () => {
+        setPageNum((prev) => {
+            const newPage = prev + 1;
+            return newPage * PER_PAGE > filteredBreweries.length
+                ? prev
+                : newPage;
+        });
+    };
+
+    const handlePrev = () => {
+        setPageNum((prev) => {
+            const newPage = prev - 1;
+            return newPage < 1 ? 1 : newPage;
+        });
+    };
+
+    const paginatedBreweries = filteredBreweries.slice(
+        (pageNum - 1) * PER_PAGE,
+        pageNum * PER_PAGE,
+    );
+
     return (
         <Wrapper>
             <Title>Breweries Matching: &apos;{query}&apos;</Title>
             <FilterBar />
 
-            {filteredBreweries.length === 0 ? (
+            {paginatedBreweries.length === 0 ? (
                 <Info>
                     No Breweries Found!!{" "}
                     {(city !== "" || type !== "") &&
@@ -54,7 +75,7 @@ const BreweryListing: FC<{
             ) : (
                 <>
                     <List>
-                        {filteredBreweries.map((brewery) => (
+                        {paginatedBreweries.map((brewery) => (
                             <ListItem
                                 key={brewery.id}
                                 onClick={() => setActive(brewery.id)}
@@ -74,7 +95,11 @@ const BreweryListing: FC<{
                             </ListItem>
                         ))}
                     </List>
-                    <Pagination {...props} />
+                    <Pagination
+                        pageNum={pageNum}
+                        onNext={handleNext}
+                        onPrev={handlePrev}
+                    />
                 </>
             )}
         </Wrapper>

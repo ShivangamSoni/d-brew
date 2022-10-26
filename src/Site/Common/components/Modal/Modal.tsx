@@ -1,6 +1,6 @@
 import { FC, MouseEventHandler, ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { Container, Wrapper } from "./Styled.Components";
+import { Container, Wrapper, Button } from "./Styled.Components";
 
 const Modal: FC<{ onClose?: () => void; children: ReactNode }> = ({
     children,
@@ -16,7 +16,7 @@ const Modal: FC<{ onClose?: () => void; children: ReactNode }> = ({
     return createPortal(
         <Wrapper>
             <Container>
-                {!!onClose && <button onClick={handleClick}>&times;</button>}
+                {!!onClose && <Button onClick={handleClick}>&times;</Button>}
                 {children}
             </Container>
         </Wrapper>,

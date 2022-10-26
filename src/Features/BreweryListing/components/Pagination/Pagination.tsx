@@ -1,4 +1,6 @@
-import { FC } from "react";
+import type { FC } from "react";
+
+import { Wrapper, Button, Label } from "./Styled.Components";
 
 const Pagination: FC<{
     pageNum: number;
@@ -6,12 +8,11 @@ const Pagination: FC<{
     onPrev: () => void;
 }> = ({ pageNum, onNext, onPrev }) => {
     return (
-        <div>
-            <h1>{pageNum}</h1>
-
-            <button onClick={onNext}>Next</button>
-            <button onClick={onPrev}>Previous</button>
-        </div>
+        <Wrapper>
+            <Button onClick={onPrev}>Previous</Button>
+            <Label>{pageNum}</Label>
+            <Button onClick={onNext}>Next</Button>
+        </Wrapper>
     );
 };
 

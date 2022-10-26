@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import type { FC } from "react";
 import Search from "../../Features/Search/Search";
 
@@ -14,6 +15,7 @@ import {
 } from "./Styled.Components";
 
 const Header: FC = () => {
+    const { pathname } = useRouter();
     return (
         <StyledHead>
             <Title>DBrew</Title>
@@ -24,7 +26,13 @@ const Header: FC = () => {
                         {SITE_NAV_LINKS.map(({ id, label, href }) => (
                             <ListItem key={id}>
                                 <Link href={href} passHref legacyBehavior>
-                                    <NavLink>{label}</NavLink>
+                                    <NavLink
+                                        className={
+                                            href === pathname ? "active" : ""
+                                        }
+                                    >
+                                        {label}
+                                    </NavLink>
                                 </Link>
                             </ListItem>
                         ))}

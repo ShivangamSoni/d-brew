@@ -4,7 +4,6 @@ import type { IListingStateShape } from "./Types";
 
 const initialState: IListingStateShape = {
     breweries: [],
-    pageNum: 1,
     filter: { city: "", type: "" },
 };
 

@@ -1,69 +1,43 @@
+import { useRouter } from "next/router";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
-import { useRouter } from "next/router";
-import { getQueryURL } from "../../src/Site/Common/Constants";
+import { ALL_BREWERY_URL, getQueryURL } from "../../src/Site/Common/Constants";
 import BreweryListing from "../../src/Features/BreweryListing/BreweryListing";
 import { useCtxState, useDispatch } from "../../src/Context/Context";
 import { setBreweries } from "../../src/Context/ListingState/actions";
 
-export default function Home() {
-    const {
-        query: { query },
-    } = useRouter();
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
+export default function Home() {
     const dispatch = useDispatch();
 
-    const [pageNum, setPageNum] = useState(1);
-    const previousPageNum = useRef(pageNum);
-
+    const [loading, setLoading] = useState(false);
     const state = useCtxState();
     const breweries = state?.listing?.breweries;
 
     useEffect(() => {
         (async () => {
+            setLoading(true);
             try {
-                const { data } = await axios.get(
-                    getQueryURL(query as string, pageNum),
-                );
+                const { data } = await axios.get(ALL_BREWERY_URL);
                 // @ts-expect-error
                 dispatch(setBreweries(data));
+                setLoading(false);
             } catch (e) {
+                setLoading(false);
                 console.error(e);
             }
         })();
-    }, [query, pageNum, dispatch]);
-
-    useEffect(() => {
-        if (!!breweries && breweries.length === 0) {
-            setPageNum(previousPageNum.current);
-        }
-    }, [breweries]);
-
-    const onNext = () => {
-        setPageNum((prev) => {
-            previousPageNum.current = prev;
-            return prev + 1;
-        });
-    };
-
-    const onPrev = () => {
-        setPageNum((prev) => {
-            previousPageNum.current = prev;
-            let newNum = prev - 1;
-            return newNum <= 1 ? 1 : newNum;
-        });
-    };
+    }, [dispatch]);
 
     return (
         <>
-            {!!breweries && breweries.length > 0 && (
-                <BreweryListing
-                    breweries={breweries}
-                    pageNum={pageNum}
-                    onNext={onNext}
-                    onPrev={onPrev}
-                />
+            {loading ? (
+                <Skeleton height={550} />
+            ) : (
+                <>{!!breweries && <BreweryListing />}</>
             )}
         </>
     );

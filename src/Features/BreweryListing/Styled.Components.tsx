@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.div``;
+export const Wrapper = styled.div`
+    color: ${({ theme }) => theme.white[500]};
+`;
 
 export const Title = styled.h2``;
 
@@ -16,7 +18,9 @@ export const List = styled.ul`
     gap: 20px;
 `;
 
-export const ListItem = styled.li``;
+export const ListItem = styled.li`
+    cursor: pointer;
+`;
 
 export const Info = styled.p`
     text-align: center;
