@@ -1,18 +1,23 @@
 import { useRouter } from "next/router";
 import type { FC } from "react";
 import { useState } from "react";
+
 import Modal from "../../Site/Common/components/Modal/Modal";
 import { IBrewery } from "../../Site/Common/Types";
 import BreweryCard from "../BreweryCard/BreweryCard";
+import Pagination from "./components/Pagination/Pagination";
 import { List, ListItem, Title, Wrapper } from "./Styled.Components";
 
-const BreweryListing: FC<{ breweries: IBrewery[] }> = ({ breweries }) => {
+const BreweryListing: FC<{
+    breweries: IBrewery[];
+    pageNum: number;
+    onNext: () => void;
+    onPrev: () => void;
+}> = ({ breweries, ...props }) => {
     const {
         query: { query },
     } = useRouter();
     const [active, setActive] = useState("");
-
-    console.log(active);
 
     return (
         <Wrapper>
@@ -38,6 +43,8 @@ const BreweryListing: FC<{ breweries: IBrewery[] }> = ({ breweries }) => {
                     </ListItem>
                 ))}
             </List>
+
+            <Pagination {...props} />
         </Wrapper>
     );
 };

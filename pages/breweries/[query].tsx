@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
 import type { IBrewery } from "../../src/Site/Common/Types";
@@ -11,7 +11,8 @@ export default function Home() {
         query: { query },
     } = useRouter();
 
-    const [pageNum, setPageNum] = useState(0);
+    const [pageNum, setPageNum] = useState(1);
+    const previousPageNum = useRef(pageNum);
     const [breweries, setBreweries] = useState<IBrewery[] | null>(null);
 
     useEffect(() => {
@@ -27,5 +28,37 @@ export default function Home() {
         })();
     }, [query, pageNum]);
 
-    return <>{!!breweries && <BreweryListing breweries={breweries} />}</>;
+    useEffect(() => {
+        if (!!breweries && breweries.length === 0) {
+            setPageNum(previousPageNum.current);
+        }
+    }, [breweries]);
+
+    const onNext = () => {
+        setPageNum((prev) => {
+            previousPageNum.current = prev;
+            return prev + 1;
+        });
+    };
+
+    const onPrev = () => {
+        setPageNum((prev) => {
+            previousPageNum.current = prev;
+            let newNum = prev - 1;
+            return newNum <= 1 ? 1 : newNum;
+        });
+    };
+
+    return (
+        <>
+            {!!breweries && (
+                <BreweryListing
+                    breweries={breweries}
+                    pageNum={pageNum}
+                    onNext={onNext}
+                    onPrev={onPrev}
+                />
+            )}
+        </>
+    );
 }
