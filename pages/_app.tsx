@@ -2,6 +2,8 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 
 import "../styles/globals.css";
+import StateProvider from "../src/Context/Context";
+import reducer from "../src/Context/store";
 import Layout from "../src/Site/Layout/Layout";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -11,9 +13,11 @@ export default function App({ Component, pageProps }: AppProps) {
                 <title>DBrew</title>
             </Head>
 
-            <Layout>
-                <Component {...pageProps} />
-            </Layout>
+            <StateProvider reducer={reducer}>
+                <Layout>
+                    <Component {...pageProps} />
+                </Layout>
+            </StateProvider>
         </>
     );
 }

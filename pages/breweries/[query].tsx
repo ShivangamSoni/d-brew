@@ -1,19 +1,24 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
-import type { IBrewery } from "../../src/Site/Common/Types";
 import { useRouter } from "next/router";
 import { getQueryURL } from "../../src/Site/Common/Constants";
 import BreweryListing from "../../src/Features/BreweryListing/BreweryListing";
+import { useCtxState, useDispatch } from "../../src/Context/Context";
+import { setBreweries } from "../../src/Context/ListingState/actions";
 
 export default function Home() {
     const {
         query: { query },
     } = useRouter();
 
+    const dispatch = useDispatch();
+
     const [pageNum, setPageNum] = useState(1);
     const previousPageNum = useRef(pageNum);
-    const [breweries, setBreweries] = useState<IBrewery[] | null>(null);
+
+    const state = useCtxState();
+    const breweries = state?.listing?.breweries;
 
     useEffect(() => {
         (async () => {
@@ -21,12 +26,13 @@ export default function Home() {
                 const { data } = await axios.get(
                     getQueryURL(query as string, pageNum),
                 );
-                setBreweries(data);
+                // @ts-expect-error
+                dispatch(setBreweries(data));
             } catch (e) {
                 console.error(e);
             }
         })();
-    }, [query, pageNum]);
+    }, [query, pageNum, dispatch]);
 
     useEffect(() => {
         if (!!breweries && breweries.length === 0) {
@@ -51,7 +57,7 @@ export default function Home() {
 
     return (
         <>
-            {!!breweries && (
+            {!!breweries && breweries.length > 0 && (
                 <BreweryListing
                     breweries={breweries}
                     pageNum={pageNum}

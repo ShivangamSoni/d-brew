@@ -17,3 +17,7 @@ export const List = styled.ul`
 `;
 
 export const ListItem = styled.li``;
+
+export const Info = styled.p`
+    text-align: center;
+`;
