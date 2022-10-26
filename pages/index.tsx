@@ -23,5 +23,5 @@ export default function Home() {
         })();
     }, []);
 
-    return <>{!!data && <BreweryCard data={data} />}</>;
+    return <>{!!data && <BreweryCard data={data} full />}</>;
 }

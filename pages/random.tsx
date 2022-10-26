@@ -23,5 +23,5 @@ export default function Random() {
         })();
     }, []);
 
-    return <>{!!data && <BreweryCard data={data} />}</>;
+    return <>{!!data && <BreweryCard data={data} full />}</>;
 }
