@@ -5,7 +5,7 @@ import type { IBrewery } from "../src/Site/Common/Types";
 import { RANDOM_URL } from "../src/Site/Common/Constants";
 import BreweryCard from "../src/Features/BreweryCard/BreweryCard";
 
-export default function Home() {
+export default function Random() {
     const [data, setData] = useState<IBrewery | null>(null);
 
     useEffect(() => {
