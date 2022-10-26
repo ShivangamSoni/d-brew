@@ -1,7 +1,10 @@
 import type { FC } from "react";
 import type { IBrewery } from "../../Site/Common/Types";
 
-const BreweryCard: FC<{ data: IBrewery }> = ({ data }) => {
+const BreweryCard: FC<{ data: IBrewery; full?: boolean }> = ({
+    data,
+    full = false,
+}) => {
     const { name, street, city, state, country, brewery_type, website_url } =
         data;
 
@@ -12,9 +15,13 @@ const BreweryCard: FC<{ data: IBrewery }> = ({ data }) => {
     return (
         <div>
             <h1>{name}</h1>
-            <p>{address}</p>
-            <p>{brewery_type}</p>
-            <p>{website_url}</p>
+            {full && (
+                <>
+                    <p>{address}</p>
+                    <p>{brewery_type}</p>
+                    <p>{website_url}</p>
+                </>
+            )}
         </div>
     );
 };
