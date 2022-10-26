@@ -5,5 +5,6 @@ export interface IListingStateShape {
     filter: {
         city: string;
         type: string;
+        sort: string;
     };
 }

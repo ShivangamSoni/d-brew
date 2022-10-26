@@ -4,7 +4,7 @@ import type { IListingStateShape } from "./Types";
 
 const initialState: IListingStateShape = {
     breweries: [],
-    filter: { city: "", type: "" },
+    filter: { city: "", type: "", sort: "" },
 };
 
 const listingReducer = (state = initialState, { type, payload }: Action) => {
@@ -17,6 +17,9 @@ const listingReducer = (state = initialState, { type, payload }: Action) => {
         }
         case ACTION_TYPES.SET_TYPE: {
             return { ...state, filter: { ...state.filter, type: payload } };
+        }
+        case ACTION_TYPES.SET_SORT: {
+            return { ...state, filter: { ...state.filter, sort: payload } };
         }
         default:
             return state;

@@ -18,7 +18,7 @@ const BreweryListing: FC = () => {
     const [pageNum, setPageNum] = useState(1);
 
     const state = useCtxState();
-    const { city, type } = state?.listing?.filter || {};
+    const { city, type, sort } = state?.listing?.filter || {};
     const breweries = state?.listing?.breweries || [];
 
     const [active, setActive] = useState("");
@@ -39,10 +39,17 @@ const BreweryListing: FC = () => {
         );
     }
 
+    if (sort !== "") {
+        filteredBreweries.sort(
+            (a, b) => a.name.localeCompare(b.name) * (sort === "desc" ? -1 : 1),
+        );
+    }
+
     const handleNext = () => {
         setPageNum((prev) => {
             const newPage = prev + 1;
-            return newPage * PER_PAGE > filteredBreweries.length
+            // return newPage;
+            return newPage * PER_PAGE > filteredBreweries.length + PER_PAGE
                 ? prev
                 : newPage;
         });

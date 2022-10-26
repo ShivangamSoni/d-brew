@@ -18,6 +18,7 @@ const Search: FC = () => {
                     type="text"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Search Brewery Name"
                 />
             </label>
         </form>

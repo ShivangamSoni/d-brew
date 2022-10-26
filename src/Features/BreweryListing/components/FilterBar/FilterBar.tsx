@@ -2,7 +2,11 @@ import type { FC, FormEventHandler, MouseEventHandler } from "react";
 import { useState } from "react";
 
 import { useDispatch } from "../../../../Context/Context";
-import { setCity, setType } from "../../../../Context/ListingState/actions";
+import {
+    setCity,
+    setSort,
+    setType,
+} from "../../../../Context/ListingState/actions";
 import { BREWERY_TYPES, CITIES } from "../../Constants";
 import {
     Button,
@@ -16,22 +20,25 @@ const FilterBar: FC = () => {
     const dispatch = useDispatch();
     const [city, setCityState] = useState("");
     const [type, setTypeState] = useState("");
+    const [sort, setSortState] = useState("");
 
-    const setFilters = (city: string, type: string) => {
+    const setFilters = (city: string, type: string, sort: string) => {
         // @ts-expect-error
         dispatch(setCity(city));
         // @ts-expect-error
         dispatch(setType(type));
+        // @ts-expect-error
+        dispatch(setSort(sort));
     };
 
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault();
-        setFilters(city, type);
+        setFilters(city, type, sort);
     };
 
     const handleReset: MouseEventHandler = (e) => {
         e.preventDefault();
-        setFilters("", "");
+        setFilters("", "", "");
         setCityState("");
         setTypeState("");
     };
@@ -62,6 +69,17 @@ const FilterBar: FC = () => {
                                 {label}
                             </option>
                         ))}
+                    </Select>
+                </FormField>
+
+                <FormField>
+                    <Select
+                        value={sort}
+                        onChange={(e) => setSortState(e.target.value)}
+                    >
+                        <option value="">Select Name Sorting</option>
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
                     </Select>
                 </FormField>
             </FieldGroup>

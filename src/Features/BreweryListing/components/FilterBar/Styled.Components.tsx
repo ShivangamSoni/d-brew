@@ -4,13 +4,16 @@ export const Form = styled.form`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-flow: row wrap;
+    gap: 10px;
     margin: 20px 0;
 `;
 
 export const FieldGroup = styled.div`
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    flex-flow: row wrap;
     gap: 20px;
 `;
 

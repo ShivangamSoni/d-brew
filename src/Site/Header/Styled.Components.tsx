@@ -4,16 +4,21 @@ export const StyledHead = styled.header`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-flow: row wrap;
+    gap: 10px;
     margin-bottom: 10px;
     color: ${({ theme }) => theme.white[500]};
 `;
 
-export const Title = styled.h1``;
+export const Title = styled.h1`
+    text-decoration: 2px solid underline;
+`;
 
 export const Actions = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-flow: row wrap;
     gap: 20px;
 `;
 

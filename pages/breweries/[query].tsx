@@ -12,7 +12,6 @@ import { IBrewery } from "../../src/Site/Common/Types";
 
 export default function Home(props: { breweriesProp: IBrewery[] }) {
     const { breweriesProp } = props;
-    console.log(breweriesProp);
     const dispatch = useDispatch();
 
     const [loading, setLoading] = useState(false);
