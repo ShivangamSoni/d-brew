@@ -9,8 +9,13 @@ import { setBreweries } from "../../src/Context/ListingState/actions";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { IBrewery } from "../../src/Site/Common/Types";
+import Head from "next/head";
+import { useRouter } from "next/router";
 
 export default function Home(props: { breweriesProp: IBrewery[] }) {
+    const {
+        query: { query },
+    } = useRouter();
     const { breweriesProp } = props;
     const dispatch = useDispatch();
 
@@ -40,6 +45,15 @@ export default function Home(props: { breweriesProp: IBrewery[] }) {
 
     return (
         <>
+            <Head>
+                <title>DBrew: Brewery Search</title>
+                <meta
+                    key="description"
+                    name="description"
+                    content={`Brewery Listing For Search Term: ${query}`}
+                />
+            </Head>
+
             {loading ? (
                 <Skeleton height={550} />
             ) : (

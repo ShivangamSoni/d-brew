@@ -7,6 +7,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import type { IBrewery } from "../src/Site/Common/Types";
 import { RANDOM_URL } from "../src/Site/Common/Constants";
 import BreweryCard from "../src/Features/BreweryCard/BreweryCard";
+import Head from "next/head";
 
 export default function Random(props: { breweryProp: IBrewery }) {
     const { breweryProp } = props;
@@ -37,6 +38,15 @@ export default function Random(props: { breweryProp: IBrewery }) {
 
     return (
         <>
+            <Head>
+                <title>DBrew: Let&apos;s Surprise You</title>
+                <meta
+                    key="description"
+                    name="description"
+                    content="Randomly Selected Brewery. You Never know what you might like"
+                />
+            </Head>
+
             {loading ? (
                 <Skeleton height={200} />
             ) : (
